@@ -3,15 +3,18 @@ FROM page_visits
 LIMIT 10;
 
 /* The campaigns and sources that CoolTShirts uses */
+
 SELECT DISTINCT utm_campaign, utm_source
 FROM page_visits;
 
 /* The different pages on the CoolTShirts website, with amount of visitors per page */
+
 SELECT page_name, COUNT(DISTINCT user_id)
 FROM page_visits
 GROUP BY 1;
 
 /* Amount of first touches that each campaign is responsible for */
+
 WITH first_touch AS (
     SELECT user_id,
         MIN(timestamp) as first_touch_at
@@ -30,6 +33,7 @@ GROUP BY utm_campaign
 ORDER BY 5 DESC;
 
 /* Amount of last touches that each campaign is responsible for */
+
 WITH last_touch AS (
   SELECT user_id,
       MAX(timestamp) AS last_touch_at
@@ -48,11 +52,13 @@ GROUP BY utm_campaign
 ORDER BY 5 DESC;
 
 /* Amount of visitors that make a purchase */
+
 SELECT COUNT(DISTINCT user_id)
 FROM page_visits
 WHERE page_name = '4 - purchase';
 
 /* Amount of last touches on the purchase page that each campaign is responsible for */
+
 WITH last_touch AS (
   SELECT user_id,
       MAX(timestamp) AS last_touch_at
